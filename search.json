@@ -243,5 +243,96 @@
     "title": "Prepare for Class 7",
     "section": "3. Four Pillars of Visualization",
     "text": "3. Four Pillars of Visualization\nNoah Illinsky from the Center for Advanced Visualization at IBM, mentioned that to visualize something successfully it\n\nNeeds a clear purpose\nOnly relevent content needs to be included\nNeed a structure that is suitable and appropriate\nFormatting needs to be of use"
+  },
+  {
+    "objectID": "preparefclass8.html",
+    "href": "preparefclass8.html",
+    "title": "Prepare for Class 8",
+    "section": "",
+    "text": "#install.packages(\"ggplot2\")\n#install.packages(\"gganimate\")\n#install.packages(\"gifski\")\n#install.packages(\"magick\")"
+  },
+  {
+    "objectID": "assignment5.html",
+    "href": "assignment5.html",
+    "title": "Assignment 5",
+    "section": "",
+    "text": "## Importing My data\nlibrary(readr)\ndata &lt;- read_csv(\"Master_Database.csv\")\n\nNew names:\nRows: 15960 Columns: 17\n── Column specification\n──────────────────────────────────────────────────────── Delimiter: \",\" chr\n(6): Station, Division, Time, Region, Month, Season dbl (11): ...1, Lat\n(degree/min), Lon (degree/min), Y, X, Max, Min, Avg, Yea...\nℹ Use `spec()` to retrieve the full column specification for this data. ℹ\nSpecify the column types or set `show_col_types = FALSE` to quiet this message.\n• `` -&gt; `...1`\n\n## sorting data\ncorrect_month_order &lt;- c(\"January\", \"February\", \"March\", \"April\", \"May\", \"June\", \n                         \"July\", \"August\", \"September\", \"October\", \"November\", \"December\")\n\n# Convert 'Month' to a factor with levels in the correct chronological order\ndata$Month &lt;- factor(data$Month, levels = correct_month_order, ordered = TRUE)\n\n# Sort the data frame by the 'Month' column (which is now an ordered factor)\ndata_sorted &lt;- data[order(data$Month), ]\n\n# Display the sorted data\n#print(data_sorted)\n\n\n\n\n\n# Setting parameter\n\npar(mar = c(4,4,3,3), family = \"Palatino\", cex = 1.2, font.main = 2, font.lab = 3)\n## Histogram\n\nhist(data$Avg, main = \"Histogram of Average Temperature in Bangladesh\",\n     xlab = \"Average Temperature (Celsius)\",\n     col = \"palegreen2\",\n     prob = TRUE,\n     xaxt = \"n\", \n     xlim = c(10,35))\nlines(density(na.omit(data$Avg), bw = 1.5),  col = \"black\", lwd = 3)  \naxis(1, at = seq(10, 35, by =  5 ), labels = seq(10, 35, by = 5), las = 1)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n# Barplot \n\npar(mar = c(6, 4, 4, 2), mgp = c(5, 1, 0), family = \"Palatino\", cex.main = 1.2, cex.lab = 1, cex.axis = 0.8, font.main = 2, font.lab = 3, las = 2)\nmonthlyavg &lt;- aggregate(Avg ~ Month, data = data, mean)\nbarplot(monthlyavg$Avg, names.arg = sort(monthlyavg$Month),\n        col = \"palegreen2\", border = \"black\",\n        xlab = \"Month\", ylab = \"Temperature (Celsius)\", \n        ylim = c(0, 35),\n        main = \"Monthly Average Temperature in Bangladesh\")\n\n\n\n\n\n\n\n\n\n\n\n\npar(mar = c(6, 5, 4, 2), mgp = c(3, 1, 0), family = \"Palatino\", cex.main = 1.2, cex.lab = 1, cex.axis = 0.8, font.main = 2, font.lab = 3, las = 2)\nseansonalavg &lt;- aggregate(Avg ~ Season, data = data, mean)\nbarplot(seansonalavg$Avg, names.arg = seansonalavg$Season,\n        horiz = TRUE, \n        col = \"palegreen2\", border = \"black\",\n        xlab = \"Temperature (Celsius)\", \n        xlim = c(0, 35),\n        main = \"Seasonal Average Temperature in Bangladesh\")\n\n\n\n\n\n\n\n\n\n\n\n\n\npar(mar = c(4, 4, 4, 4), mgp = c(3, 1, 0), family = \"Palatino\", cex.main = 1.2, cex.lab = 1, cex.axis = 0.8, font.main = 2, font.lab = 3, las = 2)\ndata$Rain &lt;- as.numeric(data$Rain) \n\n# Group by division and calculate the total rainfall per division\nrain_by_region &lt;- aggregate(Rain ~ Region, data = data, sum, na.rm = TRUE)\n\ngreen_ramp &lt;- colorRampPalette(c(\"darkseagreen1\", \"greenyellow\", \"seagreen1\",  \"palegreen2\",\"limegreen\"))\n\n# Add percentage to the pie chart\npie(rain_by_region$Rain, \n    labels = paste(rain_by_region$Region, round(100 * rain_by_region$Rain / sum(rain_by_region$Rain), 1), \"%\"),\n    main = \"Total Rainfall by Region\",\n    col = green_ramp(length(rain_by_region$Rain)),\n    radius = 1,\n    clockwise = TRUE)\n\n\n\n\n\n\n\n\n\n\n\n\npar(mar = c(6, 4, 2, 4), mgp = c(4, 1, 0), family = \"Palatino\", cex.main = 1.2, cex.lab = 1, cex.axis = 0.8, font.main = 2, font.lab = 3, las = 2)\nboxplot(data$Avg ~ data$Division,\n        col = 'palegreen2', \n        xlab = \"Division\",\n        ylab = \"Average Temperature (Celsius)\")\n\n\n\n\n\n\n\n\n\n\n\n\npar(mar = c(5, 5, 6,2), family = \"Palatino\", cex.main = 1.2, cex.lab = 1, cex.axis = 0.8, font.main = 2, font.lab = 3, las = 1)\ntemp &lt;- aggregate(Avg ~ Division, data = data, mean)\nrain &lt;- aggregate(Rain ~ Division, data = data, mean)\nplot(temp$Avg ~ rain$Rain, pch = 21, bg = 'palegreen2', col = 'forestgreen',\n     main = \"Relationship between Average Temperature\\n and Average Rainfall by Division\", \n     xlab = \"Average Rainfall (mm)\",\n     ylab = \"Average Temperature (Celsius)\")\nabline(lm(temp$Avg ~ rain$Rain), col = \"black\", lwd = 2)"
+  },
+  {
+    "objectID": "assignment5.html#histogram",
+    "href": "assignment5.html#histogram",
+    "title": "Assignment 5",
+    "section": "",
+    "text": "## Importing My data\nlibrary(readr)\ndata &lt;- read_csv(\"Master_Database.csv\")\n\nNew names:\nRows: 15960 Columns: 17\n── Column specification\n──────────────────────────────────────────────────────── Delimiter: \",\" chr\n(6): Station, Division, Time, Region, Month, Season dbl (11): ...1, Lat\n(degree/min), Lon (degree/min), Y, X, Max, Min, Avg, Yea...\nℹ Use `spec()` to retrieve the full column specification for this data. ℹ\nSpecify the column types or set `show_col_types = FALSE` to quiet this message.\n• `` -&gt; `...1`\n\n# Setting parameter\n\npar(family = \"Palatino\", cex = 1.2, font.main = 2, font.lab = 3)\n## Histogram\n\nhist(data$Avg, main = \"Histogram of Average Temperature in Bangladesh\",\n     xlab = \"Average Temperature (Celsius)\",\n     col = \"palegreen2\",\n     prob = TRUE,\n     xaxt = \"n\", \n     xlim = c(10,35))\nlines(density(na.omit(data$Avg), bw = 1.5),  col = \"black\", lwd = 3)  \naxis(1, at = seq(10, 35, by =  5 ), labels = seq(10, 35, by = 5), las = 1)"
+  },
+  {
+    "objectID": "assignment5.html#barplot",
+    "href": "assignment5.html#barplot",
+    "title": "Assignment 5",
+    "section": "2. Barplot",
+    "text": "2. Barplot\n\ni. Vertical\n\n# Barplot \n\npar(mar = c(6, 4, 4, 2), mgp = c(5, 1, 0), family = \"Palatino\", cex.main = 1.2, cex.lab = 1, cex.axis = 0.8, font.main = 2, font.lab = 3, las = 2)\nmonthlyavg &lt;- aggregate(Avg ~ Month, data = data, mean)\nmonthlyavg$Month &lt;- factor(monthlyavg$Month, \n                           levels = c(\"January\", \"February\", \"March\", \"April\",\n                                      \"May\", \"June\", \"July\", \"August\", \n                                      \"September\", \"October\",  \"November\",\n                                      \"December\"))\nbarplot(monthlyavg$Avg, names.arg = sort(monthlyavg$Month),\n        col = \"palegreen2\", border = \"black\",\n        xlab = \"Month\", ylab = \"Temperature (Celsius)\", \n        ylim = c(0, 35),\n        main = \"Monthly Average Temperature in Bangladesh\")\n\n\n\n\n\n\n\n\n\n\nii. Horizontal\n\npar(mar = c(6, 5, 4, 2), mgp = c(3, 1, 0), family = \"Palatino\", cex.main = 1.2, cex.lab = 1, cex.axis = 0.8, font.main = 2, font.lab = 3, las = 2)\nseansonalavg &lt;- aggregate(Avg ~ Season, data = data, mean)\nbarplot(seansonalavg$Avg, names.arg = seansonalavg$Season,\n        horiz = TRUE, \n        col = \"palegreen2\", border = \"black\",\n        xlab = \"Temperature (Celsius)\", \n        xlim = c(0, 35),\n        main = \"Seasonal Average Temperature in Bangladesh\")"
+  },
+  {
+    "objectID": "assignment5.html#pie-chart",
+    "href": "assignment5.html#pie-chart",
+    "title": "Assignment 5",
+    "section": "3. Pie Chart",
+    "text": "3. Pie Chart\n\npar(mar = c(4, 4, 4, 4), mgp = c(3, 1, 0), family = \"Palatino\", cex.main = 1.2, cex.lab = 1, cex.axis = 0.8, font.main = 2, font.lab = 3, las = 2)\ndata$Rain &lt;- as.numeric(data$Rain) \n\n# Group by division and calculate the total rainfall per division\nrain_by_region &lt;- aggregate(Rain ~ Region, data = data, sum, na.rm = TRUE)\n\ngreen_ramp &lt;- colorRampPalette(c(\"darkseagreen1\", \"greenyellow\", \"seagreen1\",  \"palegreen2\",\"limegreen\"))\n\n# Add percentage to the pie chart\npie(rain_by_region$Rain, \n    labels = paste(rain_by_region$Region, round(100 * rain_by_region$Rain / sum(rain_by_region$Rain), 1), \"%\"),\n    main = \"Total Rainfall by Region\",\n    col = green_ramp(length(rain_by_region$Rain)),\n    radius = 1,\n    clockwise = TRUE)"
+  },
+  {
+    "objectID": "assignment5.html#boxplot",
+    "href": "assignment5.html#boxplot",
+    "title": "Assignment 5",
+    "section": "4. Boxplot",
+    "text": "4. Boxplot\n\npar(mar = c(6, 4, 2, 4), mgp = c(4, 1, 0), family = \"Palatino\", cex.main = 1.2, cex.lab = 1, cex.axis = 0.8, font.main = 2, font.lab = 3, las = 2)\nboxplot(data$Avg ~ data$Division,\n        col = 'palegreen2', \n        xlab = \"Division\",\n        ylab = \"Average Temperature (Celsius)\")"
+  },
+  {
+    "objectID": "assignment5.html#scatterplot",
+    "href": "assignment5.html#scatterplot",
+    "title": "Assignment 5",
+    "section": "5. Scatterplot",
+    "text": "5. Scatterplot\n\npar(mar = c(5, 5, 6,2), family = \"Palatino\", cex.main = 1.2, cex.lab = 1, cex.axis = 0.8, font.main = 2, font.lab = 3, las = 1)\ntemp &lt;- aggregate(Avg ~ Division, data = data, mean)\nrain &lt;- aggregate(Rain ~ Division, data = data, mean)\nplot(temp$Avg ~ rain$Rain, pch = 21, bg = 'palegreen2', col = 'forestgreen',\n     main = \"Relationship between Average Temperature\\n and Average Rainfall by Division\", \n     xlab = \"Average Rainfall (mm)\",\n     ylab = \"Average Temperature (Celsius)\")\nabline(lm(temp$Avg ~ rain$Rain), col = \"black\", lwd = 2)"
+  },
+  {
+    "objectID": "assignment5.html#a.-histogram",
+    "href": "assignment5.html#a.-histogram",
+    "title": "Assignment 5",
+    "section": "",
+    "text": "# Setting parameter\n\npar(mar = c(4,4,3,3), family = \"Palatino\", cex = 1.2, font.main = 2, font.lab = 3)\n## Histogram\n\nhist(data$Avg, main = \"Histogram of Average Temperature in Bangladesh\",\n     xlab = \"Average Temperature (Celsius)\",\n     col = \"palegreen2\",\n     prob = TRUE,\n     xaxt = \"n\", \n     xlim = c(10,35))\nlines(density(na.omit(data$Avg), bw = 1.5),  col = \"black\", lwd = 3)  \naxis(1, at = seq(10, 35, by =  5 ), labels = seq(10, 35, by = 5), las = 1)"
+  },
+  {
+    "objectID": "assignment5.html#b.-barplot",
+    "href": "assignment5.html#b.-barplot",
+    "title": "Assignment 5",
+    "section": "",
+    "text": "# Barplot \n\npar(mar = c(6, 4, 4, 2), mgp = c(5, 1, 0), family = \"Palatino\", cex.main = 1.2, cex.lab = 1, cex.axis = 0.8, font.main = 2, font.lab = 3, las = 2)\nmonthlyavg &lt;- aggregate(Avg ~ Month, data = data, mean)\nbarplot(monthlyavg$Avg, names.arg = sort(monthlyavg$Month),\n        col = \"palegreen2\", border = \"black\",\n        xlab = \"Month\", ylab = \"Temperature (Celsius)\", \n        ylim = c(0, 35),\n        main = \"Monthly Average Temperature in Bangladesh\")\n\n\n\n\n\n\n\n\n\n\n\n\npar(mar = c(6, 5, 4, 2), mgp = c(3, 1, 0), family = \"Palatino\", cex.main = 1.2, cex.lab = 1, cex.axis = 0.8, font.main = 2, font.lab = 3, las = 2)\nseansonalavg &lt;- aggregate(Avg ~ Season, data = data, mean)\nbarplot(seansonalavg$Avg, names.arg = seansonalavg$Season,\n        horiz = TRUE, \n        col = \"palegreen2\", border = \"black\",\n        xlab = \"Temperature (Celsius)\", \n        xlim = c(0, 35),\n        main = \"Seasonal Average Temperature in Bangladesh\")"
+  },
+  {
+    "objectID": "assignment5.html#c.-pie-chart",
+    "href": "assignment5.html#c.-pie-chart",
+    "title": "Assignment 5",
+    "section": "",
+    "text": "par(mar = c(4, 4, 4, 4), mgp = c(3, 1, 0), family = \"Palatino\", cex.main = 1.2, cex.lab = 1, cex.axis = 0.8, font.main = 2, font.lab = 3, las = 2)\ndata$Rain &lt;- as.numeric(data$Rain) \n\n# Group by division and calculate the total rainfall per division\nrain_by_region &lt;- aggregate(Rain ~ Region, data = data, sum, na.rm = TRUE)\n\ngreen_ramp &lt;- colorRampPalette(c(\"darkseagreen1\", \"greenyellow\", \"seagreen1\",  \"palegreen2\",\"limegreen\"))\n\n# Add percentage to the pie chart\npie(rain_by_region$Rain, \n    labels = paste(rain_by_region$Region, round(100 * rain_by_region$Rain / sum(rain_by_region$Rain), 1), \"%\"),\n    main = \"Total Rainfall by Region\",\n    col = green_ramp(length(rain_by_region$Rain)),\n    radius = 1,\n    clockwise = TRUE)"
+  },
+  {
+    "objectID": "assignment5.html#d.-boxplot",
+    "href": "assignment5.html#d.-boxplot",
+    "title": "Assignment 5",
+    "section": "",
+    "text": "par(mar = c(6, 4, 2, 4), mgp = c(4, 1, 0), family = \"Palatino\", cex.main = 1.2, cex.lab = 1, cex.axis = 0.8, font.main = 2, font.lab = 3, las = 2)\nboxplot(data$Avg ~ data$Division,\n        col = 'palegreen2', \n        xlab = \"Division\",\n        ylab = \"Average Temperature (Celsius)\")"
+  },
+  {
+    "objectID": "assignment5.html#e.-scatterplot",
+    "href": "assignment5.html#e.-scatterplot",
+    "title": "Assignment 5",
+    "section": "",
+    "text": "par(mar = c(5, 5, 6,2), family = \"Palatino\", cex.main = 1.2, cex.lab = 1, cex.axis = 0.8, font.main = 2, font.lab = 3, las = 1)\ntemp &lt;- aggregate(Avg ~ Division, data = data, mean)\nrain &lt;- aggregate(Rain ~ Division, data = data, mean)\nplot(temp$Avg ~ rain$Rain, pch = 21, bg = 'palegreen2', col = 'forestgreen',\n     main = \"Relationship between Average Temperature\\n and Average Rainfall by Division\", \n     xlab = \"Average Rainfall (mm)\",\n     ylab = \"Average Temperature (Celsius)\")\nabline(lm(temp$Avg ~ rain$Rain), col = \"black\", lwd = 2)"
+  },
+  {
+    "objectID": "assignment5.html#data-prep",
+    "href": "assignment5.html#data-prep",
+    "title": "Assignment 5",
+    "section": "",
+    "text": "## Importing My data\nlibrary(readr)\ndata &lt;- read_csv(\"Master_Database.csv\")\n\nNew names:\nRows: 15960 Columns: 17\n── Column specification\n──────────────────────────────────────────────────────── Delimiter: \",\" chr\n(6): Station, Division, Time, Region, Month, Season dbl (11): ...1, Lat\n(degree/min), Lon (degree/min), Y, X, Max, Min, Avg, Yea...\nℹ Use `spec()` to retrieve the full column specification for this data. ℹ\nSpecify the column types or set `show_col_types = FALSE` to quiet this message.\n• `` -&gt; `...1`\n\n## sorting data\ncorrect_month_order &lt;- c(\"January\", \"February\", \"March\", \"April\", \"May\", \"June\", \n                         \"July\", \"August\", \"September\", \"October\", \"November\", \"December\")\n\n# Convert 'Month' to a factor with levels in the correct chronological order\ndata$Month &lt;- factor(data$Month, levels = correct_month_order, ordered = TRUE)\n\n# Sort the data frame by the 'Month' column (which is now an ordered factor)\ndata_sorted &lt;- data[order(data$Month), ]\n\n# Display the sorted data\n#print(data_sorted)"
   }
 ]
