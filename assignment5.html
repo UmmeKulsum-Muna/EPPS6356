@@ -150,6 +150,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="./assignment5.html">
  <span class="dropdown-text">Assignment 5</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./assignment6.html">
+ <span class="dropdown-text">Assignment 6</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -188,6 +192,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li>
     <a class="dropdown-item" href="./preparefclass8.html">
  <span class="dropdown-text">Prepare for Class 8</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./preparefclass10.html">
+ <span class="dropdown-text">Prepare for Class 10</span></a>
   </li>  
     </ul>
   </li>
@@ -419,13 +427,12 @@ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 <h2 class="anchored" data-anchor-id="e.-scatterplot">e. Scatterplot</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">6</span>,<span class="dv">2</span>), <span class="at">family =</span> <span class="st">"Palatino"</span>, <span class="at">cex.main =</span> <span class="fl">1.2</span>, <span class="at">cex.lab =</span> <span class="dv">1</span>, <span class="at">cex.axis =</span> <span class="fl">0.8</span>, <span class="at">font.main =</span> <span class="dv">2</span>, <span class="at">font.lab =</span> <span class="dv">3</span>, <span class="at">las =</span> <span class="dv">1</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(Avg <span class="sc">~</span> Division, <span class="at">data =</span> data, mean)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>rain <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(Rain <span class="sc">~</span> Division, <span class="at">data =</span> data, mean)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(temp<span class="sc">$</span>Avg <span class="sc">~</span> rain<span class="sc">$</span>Rain, <span class="at">pch =</span> <span class="dv">21</span>, <span class="at">bg =</span> <span class="st">'palegreen2'</span>, <span class="at">col =</span> <span class="st">'forestgreen'</span>,</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Relationship between Average Temperature</span><span class="sc">\n</span><span class="st"> and Average Rainfall by Division"</span>, </span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Average Rainfall (mm)"</span>,</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Average Temperature (Celsius)"</span>)</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(temp<span class="sc">$</span>Avg <span class="sc">~</span> rain<span class="sc">$</span>Rain), <span class="at">col =</span> <span class="st">"black"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(Avg <span class="sc">~</span> Year <span class="sc">+</span> Month, <span class="at">data =</span> data, mean)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>rain <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(Rain <span class="sc">~</span> Year <span class="sc">+</span> Month, <span class="at">data =</span> data, sum)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rain<span class="sc">$</span>Rain<span class="sc">~</span>temp<span class="sc">$</span>Avg, <span class="at">pch =</span> <span class="dv">21</span>, <span class="at">bg =</span> <span class="st">'palegreen2'</span>, <span class="at">col =</span> <span class="st">'forestgreen'</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Relationship between Average Temperature</span><span class="sc">\n</span><span class="st"> and Total Rainfall by Year and Month"</span>,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Average Temperature (Celsius)"</span>,</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Total Rainfall (mm)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
