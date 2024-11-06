@@ -334,5 +334,61 @@
     "title": "Assignment 5",
     "section": "",
     "text": "## Importing My data\nlibrary(readr)\ndata &lt;- read_csv(\"Master_Database.csv\")\n\nNew names:\nRows: 15960 Columns: 17\n── Column specification\n──────────────────────────────────────────────────────── Delimiter: \",\" chr\n(6): Station, Division, Time, Region, Month, Season dbl (11): ...1, Lat\n(degree/min), Lon (degree/min), Y, X, Max, Min, Avg, Yea...\nℹ Use `spec()` to retrieve the full column specification for this data. ℹ\nSpecify the column types or set `show_col_types = FALSE` to quiet this message.\n• `` -&gt; `...1`\n\n## sorting data\ncorrect_month_order &lt;- c(\"January\", \"February\", \"March\", \"April\", \"May\", \"June\", \n                         \"July\", \"August\", \"September\", \"October\", \"November\", \"December\")\n\n# Convert 'Month' to a factor with levels in the correct chronological order\ndata$Month &lt;- factor(data$Month, levels = correct_month_order, ordered = TRUE)\n\n# Sort the data frame by the 'Month' column (which is now an ordered factor)\ndata_sorted &lt;- data[order(data$Month), ]\n\n# Display the sorted data\n#print(data_sorted)"
+  },
+  {
+    "objectID": "assignment7.html",
+    "href": "assignment7.html",
+    "title": "Assignment 7",
+    "section": "",
+    "text": "Brennan Stout has already submitted the assignment link to TA.\nHere is the link: Team Geovis: Assignment 7"
+  },
+  {
+    "objectID": "assignment7.html#hackathon",
+    "href": "assignment7.html#hackathon",
+    "title": "Assignment 7",
+    "section": "",
+    "text": "Brennan Stout has already submitted the assignment link to TA.\nHere is the link: Team Geovis: Assignment 7"
+  },
+  {
+    "objectID": "project.html",
+    "href": "project.html",
+    "title": "Project",
+    "section": "",
+    "text": "Allcrime &lt;- read.csv('/Users/ummekulsum/Library/CloudStorage/Box-Box/WorkingDirectory/Fall 2024/EPPS6356/RshinyDashboard/allcrime_mon_1985_2024.csv', header = TRUE)"
+  },
+  {
+    "objectID": "preparefclass11.html",
+    "href": "preparefclass11.html",
+    "title": "Prepare for Class 11",
+    "section": "",
+    "text": "Dataset that has data points for different time period. The main purpose is to use it to explore underlying patterns."
+  },
+  {
+    "objectID": "preparefclass11.html#time-series-data",
+    "href": "preparefclass11.html#time-series-data",
+    "title": "Prepare for Class 11",
+    "section": "",
+    "text": "Dataset that has data points for different time period. The main purpose is to use it to explore underlying patterns."
+  },
+  {
+    "objectID": "preparefclass11.html#dependency",
+    "href": "preparefclass11.html#dependency",
+    "title": "Prepare for Class 11",
+    "section": "2. Dependency",
+    "text": "2. Dependency\n\nTemporal Dependency\nWhen the current data depends on data of a previous time period.\n\n\nSpatial Dependency\nWhen the values/data of certain variables are similar or dissimilar because of their location."
+  },
+  {
+    "objectID": "preparefclass11.html#some-time-series-concept",
+    "href": "preparefclass11.html#some-time-series-concept",
+    "title": "Prepare for Class 11",
+    "section": "3. Some Time Series Concept",
+    "text": "3. Some Time Series Concept\n\na. ARIMA (Autoregressive Integrated Moving Average)\n\nused to forecast\nuses the past values as regressor to predict future values\nthe time series data needs to be stationary (no trend)\nlooks into the relationship between present observation and past errors\n\n\npdq\n\np = the number of lag observations\nd = the number of times raw observations are differenced\nq = the size of moving average window\n\n\n\n\nb. Stationary\n\nproperties do not depend on time\nit can be cyclic but the trend will be zero.\n\n\n\nc. First Differencing\n\n\nd. First order autocorrelation"
+  },
+  {
+    "objectID": "preparefclass11.html#what-charts-can-be-used-for-plotting-time",
+    "href": "preparefclass11.html#what-charts-can-be-used-for-plotting-time",
+    "title": "Prepare for Class 11",
+    "section": "4. What charts can be used for plotting time ",
+    "text": "4. What charts can be used for plotting time \nDiscrete: Bar\nContinuous: point"
   }
 ]
